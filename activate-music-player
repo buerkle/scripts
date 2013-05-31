@@ -1,0 +1,26 @@
+#!/bin/bash
+
+player=$(zenity --list --hide-header --column=Player --column=Value \
+    --hide-column=2 --print-column=2 \
+    Banshee banshee \
+    Spotify spotify)
+ret=$?
+[ $ret -eq 1 ] && exit
+
+cat $HOME/.xbindkeysrc-default > $HOME/.xbindkeysrc
+
+cat >> $HOME/.xbindkeysrc <<EOF
+"dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+	XF86AudioPlay
+"dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+	XF86AudioStop
+"dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+	XF86AudioPrev
+"dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+	XF86AudioNext
+EOF
+
+killall -HUP xbindkeys
+
+dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Raise
+
