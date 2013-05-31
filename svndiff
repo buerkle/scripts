@@ -1,0 +1,6 @@
+#!/bin/sh
+
+svn diff -x -w -x --ignore-eol-style -r PREV:COMMITTED $@ 2>/dev/null
+if [ $? -ne 0 ]; then
+    cat $@
+fi
