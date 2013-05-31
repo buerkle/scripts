@@ -1,0 +1,37 @@
+#!/usr/bin/ruby
+
+require 'optparse'
+require 'time'
+
+$options = {}
+
+optparse = OptionParser.new do|opts|
+    opts.on('-t', '--timestamp', 'Output only timestamp') do
+        $options[:timestamp] = true
+    end
+end
+
+optparse.parse!
+
+def print_time(ts)
+    if $options[:timestamp]
+        printf "%.0f\n", ts.to_f * 1000
+    else
+        printf "%.0f - %s\n", ts.to_f * 1000, ts
+    end
+end
+
+ARGV.each do |arg|
+    if arg.index('-') or arg.index(' ')
+        ts = Time.parse(arg)
+    else
+        ts = Time.at(arg.to_f/1000)
+    end
+    print_time(ts)
+end
+
+if ARGV.empty?
+    print_time(Time.now)
+end
+
+
