@@ -10,7 +10,7 @@ if [ -e "$1" ]; then
     exec $EDITOR $1
 fi
 
-FILE=$(find . -iname "$1" | sort)
+FILE=$(find . -not -name "*.class" -iname "$1" | sort)
 FILES=( $FILE )
 COUNT=${#FILES[@]}
 
