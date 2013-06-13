@@ -10,9 +10,17 @@ if [ -e "$1" ]; then
     exec $EDITOR $1
 fi
 
-FILE=$(find . -not -name "*.class" -iname "$1" | sort)
-FILES=( $FILE )
-COUNT=${#FILES[@]}
+f () {
+    FILE=$(find . -not -name "*.class" -iname "$1" | sort)
+    FILES=( $FILE )
+    COUNT=${#FILES[@]}
+}
+
+f $1
+
+if [ "0" == $COUNT ]; then
+    f "$1*"
+fi
 
 if [ "0" == $COUNT ]; then
     echo "no files found"
