@@ -11,7 +11,7 @@ if [ -e "$1" ]; then
 fi
 
 f () {
-    FILE=$(find . -not -name "*.class" -iname "$1" | sort)
+    FILE=$(find . -type f -not -name "*.class" -iname "$1" | sort)
     FILES=( $FILE )
     COUNT=${#FILES[@]}
 }
