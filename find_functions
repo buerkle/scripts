@@ -1,0 +1,48 @@
+# All
+f () {
+    if [ -z "$1" ]; then
+        find . -path '*/.svn' -prune -o -type f -print | sort
+    else
+        find . -path '*/.svn' -prune -o -type f -print0 | sort -z | xargs -0 egrep "$@"
+    fi
+}
+
+# generic extension
+ef () {
+    ext=$1
+    shift
+
+    if [ -z "$ext" ]; then
+        echo "Usage: ef [extension] [grep options] <grep search string>"
+    elif [ -z "$1" ]; then
+        find . -path '.svn' -prune -o -name "*.$ext" | sort
+    else
+        find . -path '.svn' -prune -o -name "*.$ext" -print0 | sort -z | xargs -0 egrep "$@"
+    fi
+}
+
+# Java
+jf () {
+    ef java "$@"
+}
+
+# c/h
+cf () {
+    ef [ch] "$@"
+}
+
+# properties
+pf () {
+    ef properties "$@"
+}
+
+# xml
+xf () {
+    ef xml "$@"
+}
+
+# find by name
+fn () {
+    find . -path '.svn' -prune -o -name "$1"
+}
+
