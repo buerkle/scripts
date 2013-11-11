@@ -7,6 +7,10 @@ player=$(zenity --list --hide-header --column=Player --column=Value \
 ret=$?
 [ $ret -eq 1 ] && exit
 
+# https://bugzilla.gnome.org/show_bug.cgi?id=698683
+# Workaround bug in 3.8 zenity
+player=$(echo $player|cut -f2 -d'|')
+
 cat $HOME/.xbindkeysrc-default > $HOME/.xbindkeysrc
 
 cat >> $HOME/.xbindkeysrc <<EOF
