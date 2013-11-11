@@ -17,7 +17,7 @@ def print_time(ts)
     if $options[:timestamp]
         printf "%.0f\n", ts.to_f * 1000
     else
-        printf "%.0f - %s\n", ts.to_f * 1000, ts
+        printf "%.0f - %s ---- %s\n", ts.to_f * 1000, ts, Time.at(ts).gmtime
     end
 end
 
