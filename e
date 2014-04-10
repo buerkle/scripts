@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ -e "$1" ]; then
-    exec $EDITOR $1
+    exec $EDITOR "$@"
 fi
 
 f () {
