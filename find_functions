@@ -1,9 +1,9 @@
 # All
 f () {
     if [ -z "$1" ]; then
-        find . -path '*/.svn' -prune -o -type f -print | sort
+        find -L . -path '*/.svn' -prune -o -type f -print | sort
     else
-        find . -path '*/.svn' -prune -o -type f -print0 | sort -z | xargs -0 egrep "$@"
+        find -L . -path '*/.svn' -prune -o -type f -print0 | sort -z | xargs -0 egrep "$@"
     fi
 }
 
@@ -15,9 +15,9 @@ ef () {
     if [ -z "$ext" ]; then
         echo "Usage: ef [extension] [grep options] <grep search string>"
     elif [ -z "$1" ]; then
-        find . -path '.svn' -prune -o -name "*.$ext" | sort
+        find -L . -path '.svn' -prune -o -name "*.$ext" | sort
     else
-        find . -path '.svn' -prune -o -name "*.$ext" -print0 | sort -z | xargs -0 egrep "$@"
+        find -L . -path '.svn' -prune -o -name "*.$ext" -print0 | sort -z | xargs -0 egrep "$@"
     fi
 }
 
@@ -43,6 +43,6 @@ xf () {
 
 # find by name
 fn () {
-    find . -path '.svn' -prune -o -name "$1"
+    find -L . -path '.svn' -prune -o -name "$1"
 }
 
