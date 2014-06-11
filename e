@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
     exec $EDITOR
 fi
 
-if [ -e "$1" ]; then
+if [ -e "$1" -a -f "$1" ]; then
     exec $EDITOR "$@"
 fi
 
