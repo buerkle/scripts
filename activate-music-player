@@ -7,6 +7,12 @@ player=$(zenity --list --hide-header --column=Player --column=Value \
 ret=$?
 [ $ret -eq 1 ] && exit
 
+# stop current player
+current=$(sed -n 's|# player = \(.*\)|\1|p' $HOME/.xbindkeysrc)
+if [ ! -z $current ]; then
+    dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$current /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+fi
+
 # https://bugzilla.gnome.org/show_bug.cgi?id=698683
 # Workaround bug in 3.8 zenity
 player=$(echo $player|cut -f2 -d'|')
@@ -14,14 +20,15 @@ player=$(echo $player|cut -f2 -d'|')
 cat $HOME/.xbindkeysrc-default > $HOME/.xbindkeysrc
 
 cat >> $HOME/.xbindkeysrc <<EOF
+# player = $player
 "dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
-	XF86AudioPlay
+        XF86AudioPlay
 "dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
-	XF86AudioStop
+        XF86AudioStop
 "dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
-	XF86AudioPrev
+        XF86AudioPrev
 "dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
-	XF86AudioNext
+        XF86AudioNext
 EOF
 
 killall -HUP xbindkeys
