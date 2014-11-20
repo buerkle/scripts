@@ -1,9 +1,6 @@
 #!/bin/bash
 
-player=$(zenity --list --hide-header --column=Player --column=Value \
-    --hide-column=2 --print-column=2 \
-    Banshee banshee \
-    Spotify spotify)
+player=$(zenity --list --hide-header --column=Player Banshee Spotify)
 ret=$?
 [ $ret -eq 1 ] && exit
 
@@ -16,6 +13,14 @@ fi
 # https://bugzilla.gnome.org/show_bug.cgi?id=698683
 # Workaround bug in 3.8 zenity
 player=$(echo $player|cut -f2 -d'|')
+
+if [ "$player" = "Banshee" ]; then
+    player="banshee"
+    wm_class="banshee"
+else
+    player="spotify"
+    wm_class="Spotify"
+fi
 
 cat $HOME/.xbindkeysrc-default > $HOME/.xbindkeysrc
 
@@ -34,4 +39,9 @@ EOF
 killall -HUP xbindkeys
 
 dbus-send --type="method_call" --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Raise
+
+if [ "$DESKTOP_SESSION" = "i3" ]; then
+    i3-msg "[class=\"$wm_class\"] focus" > /dev/null
+fi
+
 
