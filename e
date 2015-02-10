@@ -1,7 +1,7 @@
 #!/bin/bash
 
-EDITOR=vs
-WM_CLASS=SlickEdit
+EDITOR=${EDITOR:-vs}
+WM_CLASS=${WM_CLASS:-SlickEdit}
 
 f () {
     FILE=$(find -L . -type d -name .git -prune -o -type f -not -name "*.class" -not -name "*.pyc" -iname "$1" -print | sort) 
@@ -11,13 +11,17 @@ f () {
 
 run_editor () {
     if [ "$DESKTOP_SESSION" = "i3" ]; then
-        i3-msg "[class=$WM_CLASS] focus"
+        i3-msg "[class=$WM_CLASS] focus" > /dev/null
     fi
     exec $EDITOR "$1"
 }
 
 if [ -z "$1" ]; then
     run_editor
+fi
+
+if [ "-c" = "$1" ]; then
+    run_editor "$2"
 fi
 
 if [ -f "$1" ]; then
