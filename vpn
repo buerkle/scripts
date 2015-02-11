@@ -1,0 +1,9 @@
+#!/bin/sh
+
+NAME="VPN connection 1"
+
+if [ "$1" = "start" ]; then
+	nmcli con up id "$NAME"
+elif [ "$1" = "stop" ]; then
+	nmcli con down id "$NAME"
+fi    
