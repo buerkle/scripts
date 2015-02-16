@@ -4,7 +4,7 @@ EDITOR=${EDITOR:-vs}
 WM_CLASS=${WM_CLASS:-SlickEdit}
 
 f () {
-    FILE=$(find -L . -type d -name .git -prune -o -type f -not -name "*.class" -not -name "*.pyc" -iname "$1" -print | sort) 
+    FILE=$(find -L . -type d -name .git -prune -o -type f -not -name "*.class" -not -name "*.pyc" -iname "$1" -print | sort)
     FILES=( $FILE )
     COUNT=${#FILES[@]}
 }
@@ -20,7 +20,7 @@ if [ -z "$1" ]; then
     run_editor
 fi
 
-if [ "-c" = "$1" ]; then
+if [ "-n" = "$1" ]; then
     run_editor "$2"
 fi
 
