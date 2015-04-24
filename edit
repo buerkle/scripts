@@ -13,7 +13,7 @@ run_editor () {
     if [ "$DESKTOP_SESSION" = "i3" ]; then
         i3-msg "[class=$WM_CLASS] focus" > /dev/null
     fi
-    exec $EDITOR "$1"
+    exec $EDITOR "$1" 2> /dev/null &
 }
 
 if [ -z "$1" ]; then
@@ -35,7 +35,8 @@ if [ "0" == $COUNT ]; then
 elif [ "1" == $COUNT ]; then
     run_editor $FILE
 else
-    SELECTION=$(zenity --width=640 --height=480 --multiple --column=File --list $FILE | cut -d'|' -f2)
+    SELECTION=$(zenity --width=640 --height=480 --multiple --column=File \
+	--list $FILE 2> /dev/null | cut -d'|' -f2)
     if [ -n "$SELECTION" ]; then
         run_editor $SELECTION
     fi
