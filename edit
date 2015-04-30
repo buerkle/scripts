@@ -13,7 +13,8 @@ run_editor () {
     if [ "$DESKTOP_SESSION" = "i3" ]; then
         i3-msg "[class=$WM_CLASS] focus" > /dev/null
     fi
-    exec $EDITOR "$1" 2> /dev/null &
+    $EDITOR "$1" 2> /dev/null &
+    exit
 }
 
 if [ -z "$1" ]; then
