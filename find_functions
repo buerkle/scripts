@@ -1,9 +1,9 @@
 # All
 f () {
     if [ -z "$1" ]; then
-        find -L . -path '*/.svn' -prune -o -type f -print | sort
+        find -L . -name \*.pyc -o -path '*/.git' -prune -o -type f -print | sort
     else
-        find -L . -path '*/.svn' -prune -o -type f -print0 | sort -z | xargs -0 egrep "$@"
+        find -L . -name \*.pyc -o -path '*/.git' -prune -o -type f -print0 | sort -z | xargs -0 egrep "$@"
     fi
 }
 
@@ -15,9 +15,9 @@ ef () {
     if [ -z "$ext" ]; then
         echo "Usage: ef [extension] [grep options] <grep search string>"
     elif [ -z "$1" ]; then
-        find -L . -path '.svn' -prune -o -type f -name "*.$ext" | sort
+        find -L . -path '.git' -prune -o -type f -name "*.$ext" | sort
     else
-        find -L . -path '.svn' -prune -o -type f -name "*.$ext" -print0 | sort -z | xargs -0 egrep "$@"
+        find -L . -path '.git' -prune -o -type f -name "*.$ext" -print0 | sort -z | xargs -0 egrep "$@"
     fi
 }
 
@@ -46,3 +46,23 @@ fn () {
     find -L . -path '.svn' -prune -o -name "$1"
 }
 
+src () {
+    local count=1
+    local dirs
+    local path="src/main/java"
+
+    if [ ! -d $path ]; then
+       return
+    fi
+    
+    while [ $count = 1 ]; do
+          dirs=$(find $path -maxdepth 1 -mindepth 1 -type d)
+          count=$(echo $dirs | wc -w)
+
+          if [ $count = 1 ]; then
+             path=$dirs
+          fi
+    done
+
+    cd $path
+}
