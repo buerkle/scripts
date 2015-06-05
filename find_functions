@@ -54,12 +54,12 @@ src () {
     if [ ! -d $path ]; then
        return
     fi
-    
+
     while [ $count = 1 ]; do
-          dirs=$(find $path -maxdepth 1 -mindepth 1 -type d)
+          dirs=$(find $path -maxdepth 1 -mindepth 1)
           count=$(echo $dirs | wc -w)
 
-          if [ $count = 1 ]; then
+          if [[ $count = 1 && -d "$dirs" ]]; then
              path=$dirs
           fi
     done
