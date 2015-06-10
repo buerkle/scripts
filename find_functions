@@ -51,6 +51,10 @@ src () {
     local dirs
     local path="src/main/java"
 
+    if [ -n "$1" ]; then
+       path="$1/$path"
+    fi
+
     if [ ! -d $path ]; then
        return
     fi
