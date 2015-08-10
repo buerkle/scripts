@@ -9,23 +9,30 @@ optparse = OptionParser.new do|opts|
     opts.on('-t', '--timestamp', 'Output only timestamp') do
         $options[:timestamp] = true
     end
+    opts.on('-m', '--milliseconds', 'Use milliseconds') do
+        $options[:millis] = true
+    end
 end
 
 optparse.parse!
 
 def print_time(ts)
+    millis = $options[:millis] ? 1000 : 1
+
     if $options[:timestamp]
-        printf "%.0f\n", ts.to_f * 1000
+        printf "%.0f\n", ts.to_f * millis
     else
         printf "%.0f - %s ---- %s\n", ts.to_f * 1000, ts, Time.at(ts).gmtime
     end
 end
 
 ARGV.each do |arg|
+    millis = $options[:millis] ? 1000 : 1
+
     if arg.index('-') or arg.index(' ')
         ts = Time.parse(arg)
     else
-        ts = Time.at(arg.to_f/1000)
+        ts = Time.at(arg.to_f/millis)
     end
     print_time(ts)
 end
@@ -33,5 +40,3 @@ end
 if ARGV.empty?
     print_time(Time.now)
 end
-
-
