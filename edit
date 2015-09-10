@@ -3,6 +3,11 @@
 EDITOR=${EDITOR:-vs}
 WM_CLASS=${WM_CLASS:-SlickEdit}
 
+if [ -z $(which $EDITOR) ]; then
+	echo "$EDITOR does not exist or is not executable"
+	exit 1
+fi
+
 f () {
     FILE=$(find -L . -type d -name .git -prune -o -type f -not -name "*.class" -not -name "*.pyc" -iname "$1" -print | sort)
     FILES=( $FILE )
