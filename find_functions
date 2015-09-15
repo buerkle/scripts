@@ -62,8 +62,8 @@ src () {
     while [ $count = 1 ]; do
           dirs=$(find $path -maxdepth 1 -mindepth 1)
           count=$(echo $dirs | wc -w)
-
-          if [[ $count = 1 && -d "$dirs" ]]; then
+	  
+          if [ $count = 1 ] && [ -d "$dirs" ]; then
              path=$dirs
           fi
     done
