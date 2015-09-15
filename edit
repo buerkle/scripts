@@ -9,7 +9,11 @@ if [ -z $(which $EDITOR) ]; then
 fi
 
 f () {
-    FILE=$(find -L . -type d -name .git -prune -o -type f -not -name "*.class" -not -name "*.pyc" -iname "$1" -print | sort)
+    FILE=$(find -L . -type d -name .git -prune -o -type f \
+                -not -name "*.class" \
+                -not -name "*.pyc" \
+                -not -name "*.beam" \
+                -iname "$1" -print | sort)
     FILES=( $FILE )
     COUNT=${#FILES[@]}
 }
@@ -47,4 +51,3 @@ else
         run_editor $SELECTION
     fi
 fi
-
