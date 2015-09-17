@@ -51,6 +51,11 @@ src () {
     local dirs
     local path="src/main/java"
 
+    if [ "-t" = "$1" ]; then
+	shift
+	path="src/test/java"
+    fi
+
     if [ -n "$1" ]; then
        path="$1/$path"
     fi
