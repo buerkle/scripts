@@ -41,6 +41,11 @@ xf () {
     ef xml "$@"
 }
 
+# yaml
+yf () {
+    ef yaml "$@"
+}
+
 # find by name
 fn () {
     find -L . -path '.svn' -prune -o -name "$1"
